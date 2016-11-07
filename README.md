@@ -15,3 +15,4 @@ Simple http server for localhost development
 
 ## Run
 * `httpproxy -h` for help
+* `./httpproxy --upstream="http://localhost:8081" --app="http://localhost:8080" --encrypt="sa8OoLei6eWiezah9ohk8Wah6Ow6pee9" --csrf="oxei9aebonogh1Gaina4ePaitheechei" --auth="Akagi201"`
