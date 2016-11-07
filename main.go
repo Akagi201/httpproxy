@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/url"
 	"os"
 	"strings"
 
-	"./sso"
+	"github.com/Akagi201/httpproxy/sso"
 	"github.com/Akagi201/light"
-	"github.com/gohttp/logger"
+	mlogrus "github.com/Akagi201/middleware/logrus"
+	"github.com/Sirupsen/logrus"
 	flags "github.com/jessevdk/go-flags"
 )
 
@@ -23,6 +23,17 @@ var opts struct {
 	EncryptionKey string   `long:"encrypt" default:"" description:"key used for cookie authenticated encryption (32 chars)"`
 	CSRFAuthKey   string   `long:"csrf" default:"" description:"key used for cookie authenticated encryption (32 chars)"`
 	AuthUsers     []string `long:"auth" description:"list of users that are authorized to use the app"`
+}
+
+var log *logrus.Logger
+
+func init() {
+	log = logrus.New()
+	log.Level = logrus.InfoLevel
+	f := new(logrus.TextFormatter)
+	f.TimestampFormat = "2006-01-02 15:04:05"
+	f.FullTimestamp = true
+	log.Formatter = f
 }
 
 func isDir(path string) (bool, error) {
@@ -96,7 +107,7 @@ func main() {
 		upstreamURL, apiURL, appPublicURL, opts.StaticPath, opts.TemplatePath, opts.EncryptionKey, opts.CSRFAuthKey, authorized)
 
 	app := light.New()
-	app.Use(logger.New())
+	app.Use(mlogrus.New())
 
 	s := &sso.SSO{
 		UpstreamURL:   upstreamURL,

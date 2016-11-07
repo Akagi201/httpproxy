@@ -13,16 +13,27 @@ import (
 	"html/template"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 	"time"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/csrf"
 	"github.com/vulcand/oxy/forward"
 )
+
+var log *logrus.Logger
+
+func init() {
+	log = logrus.New()
+	log.Level = logrus.InfoLevel
+	f := new(logrus.TextFormatter)
+	f.TimestampFormat = "2006-01-02 15:04:05"
+	f.FullTimestamp = true
+	log.Formatter = f
+}
 
 type SSO struct {
 	UpstreamURL   *url.URL

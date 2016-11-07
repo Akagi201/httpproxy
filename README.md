@@ -1,6 +1,6 @@
-# serve
+# httpproxy
 
-Simple http server for localhost development
+HTTP proxy with sso auth and https support in Go.
 
 ## Features
 - [x] Use [light](https://github.com/Akagi201/light) as http framework.
